@@ -22,22 +22,29 @@ struct User: Identifiable, Comparable {
     let lastName: String
 }
 
-struct ContentView: View {
-    let values = [1, 5, 7, 0, 2].sorted()
-    let users_not_confront_Comparable_protocol = [
-        User(firstName: "Arnold", lastName: "Rimmer"),
-        User(firstName: "Kristine", lastName: "Kochanski"),
-        User(firstName: "David", lastName: "Listner")
-    ].sorted {
-        $0.lastName < $1.lastName
+enum LoadingState {
+    case loading, success, failed, testing
+}
+
+struct LoadingView: View {
+    var body: some View {
+        Text("Loading")
     }
+}
 
-    let users_confront_Comparable_protocol = [
-        User(firstName: "Arnold", lastName: "Rimmer"),
-        User(firstName: "Kristine", lastName: "Kochanski"),
-        User(firstName: "David", lastName: "Listner")
-    ].sorted()
+struct SuccessView: View {
+    var body: some View {
+        Text("Success!")
+    }
+}
 
+struct FailedView: View {
+    var body: some View {
+        Text("Failed.")
+    }
+}
+
+struct TestingView: View {
     var body: some View {
         Text("Hello, world!")
             .padding()
@@ -61,6 +68,36 @@ struct ContentView: View {
 
         // just send back the first one, which ought to be the only one
         return paths[0]
+    }
+}
+
+struct ContentView: View {
+    let values = [1, 5, 7, 0, 2].sorted()
+    let users_not_confront_Comparable_protocol = [
+        User(firstName: "Arnold", lastName: "Rimmer"),
+        User(firstName: "Kristine", lastName: "Kochanski"),
+        User(firstName: "David", lastName: "Listner")
+    ].sorted {
+        $0.lastName < $1.lastName
+    }
+
+    let users_confront_Comparable_protocol = [
+        User(firstName: "Arnold", lastName: "Rimmer"),
+        User(firstName: "Kristine", lastName: "Kochanski"),
+        User(firstName: "David", lastName: "Listner")
+    ].sorted()
+
+    var loadingState = LoadingState.success
+    var body: some View {
+        if loadingState == LoadingState.loading {
+            LoadingView()
+        } else if loadingState == .success {
+            SuccessView()
+        } else if loadingState == .failed {
+            FailedView()
+        } else if loadingState == .testing {
+            TestingView()
+        }
     }
 }
 

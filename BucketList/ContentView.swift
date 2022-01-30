@@ -16,7 +16,21 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             Map(coordinateRegion: $mapRegiion, annotationItems: locations) { location in
-                MapMarker(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+                //Style1: MapMarker: default map annotation
+                //MapMarker(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+
+                //Style2: MapAnnotation: use customized swiftUI view annotation
+                MapAnnotation(coordinate: location.coordinate) {
+                    VStack {
+                        Image(systemName: "pin.fill")
+                            .resizable()
+                            .foregroundColor(.red)
+                            .frame(width: 44, height: 44) //Apple recommend min acceptable size for all decvices
+//                            .background(.white)
+                            .clipShape(Circle())
+                        Text(location.name)
+                    }
+                }
             }
             .ignoresSafeArea()
 

@@ -13,6 +13,8 @@ struct ContentView: View {
     // London: lat: 51.50 long:-0.11
     @State private var mapRegiion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 22.63, longitude: 120.26), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
     @State private var locations = [Location]()
+    @State private var selectedPlace: Location?
+
     var body: some View {
         ZStack {
             Map(coordinateRegion: $mapRegiion, annotationItems: locations) { location in
@@ -29,6 +31,10 @@ struct ContentView: View {
 //                            .background(.white)
                             .clipShape(Circle())
                         Text(location.name)
+                            .fixedSize()
+                    }
+                    .onTapGesture {
+                        selectedPlace = location
                     }
                 }
             }
@@ -56,6 +62,16 @@ struct ContentView: View {
                     .clipShape(Circle())
                     .padding(.trailing)
                 }
+            }
+        }
+        .sheet(item: $selectedPlace) { place in
+            // sheet takes an optional binding, auto unwrapped when it has a value set.
+            // thus no need to unwrap the text view
+            EditView(location: place) { newLocation in
+                if let index = locations.firstIndex(of: place) {
+                    locations[index] = newLocation
+                }
+
             }
         }
     }

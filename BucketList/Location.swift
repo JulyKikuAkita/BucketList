@@ -15,7 +15,7 @@ import MapKit
  Equatable, so we can find one particular location in an array of locations.
  */
 struct Location: Identifiable, Codable, Equatable {
-    let id: UUID
+    var id: UUID
     var name: String
     var description: String
     let latitude: Double

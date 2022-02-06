@@ -9,15 +9,11 @@ import SwiftUI
 
 // asking users to add places to the map that they want to visit
 struct ContentView: View {
-    // Kaohsiung: lat: 22.63 long:120.26
-    // London: lat: 51.50 long:-0.11
-    @State private var mapRegiion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 22.63, longitude: 120.26), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
-    @State private var locations = [Location]()
-    @State private var selectedPlace: Location?
-
+    @StateObject private var viewModel = ViewModel()
+    
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $mapRegiion, annotationItems: locations) { location in
+            Map(coordinateRegion: $viewModel.mapRegiion, annotationItems: viewModel.locations) { location in
                 //Style1: MapMarker: default map annotation
                 //MapMarker(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
 
@@ -34,7 +30,7 @@ struct ContentView: View {
                             .fixedSize()
                     }
                     .onTapGesture {
-                        selectedPlace = location
+                        viewModel.selectedPlace = location
                     }
                 }
             }
@@ -50,8 +46,7 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     Button {
-                        let newLocation = Location(id: UUID(), name: "New Location", description: "", latitude: mapRegiion.center.latitude, longitude: mapRegiion.center.longitude)
-                        locations.append(newLocation)
+                        viewModel.addLocation()
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -64,14 +59,11 @@ struct ContentView: View {
                 }
             }
         }
-        .sheet(item: $selectedPlace) { place in
+        .sheet(item: $viewModel.selectedPlace) { place in
             // sheet takes an optional binding, auto unwrapped when it has a value set.
             // thus no need to unwrap the text view
-            EditView(location: place) { newLocation in
-                if let index = locations.firstIndex(of: place) {
-                    locations[index] = newLocation
-                }
-
+            EditView(location: place) {
+                viewModel.update(location: $0)
             }
         }
     }

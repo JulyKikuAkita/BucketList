@@ -7,6 +7,7 @@
 
 import Foundation
 import MapKit
+import LocalAuthentication
 
 extension ContentView {
     // The main actor is responsible for running all user interface updates
@@ -19,6 +20,8 @@ extension ContentView {
         @Published var mapRegiion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 22.63, longitude: 120.26), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
         @Published private(set) var locations: [Location]
         @Published var selectedPlace: Location?
+        @Published var isUnlocked = false
+        
         let savePath = FileManager.documentDirectory.appendingPathComponent("SavedPlaces")
 
         init() {
@@ -52,6 +55,37 @@ extension ContentView {
                 try data.write(to: savePath, options: [.atomic, .completeFileProtection])
             } catch {
                 print("Unable to save data.")
+            }
+        }
+
+        func authenticate() {
+            let context = LAContext()
+            var error: NSError?
+
+            // When that process completes Apple will call our completion closure, but that won’t be called on the main actor despite our @MainActor attribute.
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                let reason = "Please authenticate yourself to unlock your places" //for Touch ID
+
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                    if success {
+                        // solution 1: call task(any background thread, switch to main threa)
+                        //Task {
+                        //    await MainActor.run {
+                        //        self.isUnlocked = true
+                        //    }
+                        //}
+                        //
+                        // solution 2: ask for a mainthread
+                        Task { @MainActor in
+                            self.isUnlocked = true
+                        }
+                    } else {
+                        // error
+                    }
+                }
+            } else {
+                // no biometrics
+
             }
         }
     }

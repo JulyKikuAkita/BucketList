@@ -13,50 +13,60 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $viewModel.mapRegiion, annotationItems: viewModel.locations) { location in
-                //Style1: MapMarker: default map annotation
-                //MapMarker(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+            if viewModel.isUnlocked {
+                Map(coordinateRegion: $viewModel.mapRegiion, annotationItems: viewModel.locations) { location in
+                    //Style1: MapMarker: default map annotation
+                    //MapMarker(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
 
-                //Style2: MapAnnotation: use customized swiftUI view annotation
-                MapAnnotation(coordinate: location.coordinate) {
-                    VStack {
-                        Image(systemName: "pin.fill")
-                            .resizable()
-                            .foregroundColor(.red)
-                            .frame(width: 44, height: 44) //Apple recommend min acceptable size for all decvices
-//                            .background(.white)
-                            .clipShape(Circle())
-                        Text(location.name)
-                            .fixedSize()
-                    }
-                    .onTapGesture {
-                        viewModel.selectedPlace = location
+                    //Style2: MapAnnotation: use customized swiftUI view annotation
+                    MapAnnotation(coordinate: location.coordinate) {
+                        VStack {
+                            Image(systemName: "pin.fill")
+                                .resizable()
+                                .foregroundColor(.red)
+                                .frame(width: 44, height: 44) //Apple recommend min acceptable size for all decvices
+    //                            .background(.white)
+                                .clipShape(Circle())
+                            Text(location.name)
+                                .fixedSize()
+                        }
+                        .onTapGesture {
+                            viewModel.selectedPlace = location
+                        }
                     }
                 }
-            }
-            .ignoresSafeArea()
+                .ignoresSafeArea()
 
-            Circle()
-                .fill(.pink)
-                .opacity(0.4)
-                .frame(width: 32, height: 32)
+                Circle()
+                    .fill(.pink)
+                    .opacity(0.4)
+                    .frame(width: 32, height: 32)
 
-            VStack {
-                Spacer()
-                HStack {
+                VStack {
                     Spacer()
-                    Button {
-                        viewModel.addLocation()
-                    } label: {
-                        Image(systemName: "plus")
+                    HStack {
+                        Spacer()
+                        Button {
+                            viewModel.addLocation()
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        .padding()
+                        .background(.black.opacity(0.75))
+                        .foregroundColor(.white)
+                        .font(.title)
+                        .clipShape(Circle())
+                        .padding(.trailing)
                     }
-                    .padding()
-                    .background(.black.opacity(0.75))
-                    .foregroundColor(.white)
-                    .font(.title)
-                    .clipShape(Circle())
-                    .padding(.trailing)
                 }
+            } else {
+                Button("Unlock Places") {
+                    viewModel.authenticate()
+                }
+                .padding()
+                .background(.blue)
+                .foregroundColor(.white)
+                .clipShape(Capsule())
             }
         }
         .sheet(item: $viewModel.selectedPlace) { place in

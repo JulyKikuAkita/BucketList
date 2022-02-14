@@ -81,11 +81,16 @@ extension ContentView {
                         }
                     } else {
                         // error
+                        if let error = authenticationError {
+                            print(error.localizedDescription)
+                        } else {
+                            print("generic error")
+                        }
                     }
                 }
             } else {
                 // no biometrics
-
+                print("The device does not support FaceID/TouchID. Use passcode Instead.")
             }
         }
     }

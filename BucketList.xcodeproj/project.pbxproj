@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AB8836D127A7C1720051FDA6 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8836D027A7C1720051FDA6 /* Result.swift */; };
+		AB8836D327C1C1CF0051FDA6 /* LocationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8836D227C1C1CF0051FDA6 /* LocationFetcher.swift */; };
 		CA1941122776BCC000624A28 /* BucketListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1941112776BCC000624A28 /* BucketListApp.swift */; };
 		CA1941142776BCC000624A28 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1941132776BCC000624A28 /* ContentView.swift */; };
 		CA1941162776BCC400624A28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1941152776BCC400624A28 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		AB8836D027A7C1720051FDA6 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		AB8836D227C1C1CF0051FDA6 /* LocationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFetcher.swift; sourceTree = "<group>"; };
 		CA19410E2776BCC000624A28 /* BucketList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BucketList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA1941112776BCC000624A28 /* BucketListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketListApp.swift; sourceTree = "<group>"; };
 		CA1941132776BCC000624A28 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				CA1941112776BCC000624A28 /* BucketListApp.swift */,
 				CA1941132776BCC000624A28 /* ContentView.swift */,
 				CA9C25D427B05DB200F6D4C3 /* ContentView-ViewModel.swift */,
+				AB8836D227C1C1CF0051FDA6 /* LocationFetcher.swift */,
 				CA9C25D827B06B4E00F6D4C3 /* EditView-ViewModel.swift */,
 				AB8836D027A7C1720051FDA6 /* Result.swift */,
 				CA6188AD27A639E300991336 /* EditView.swift */,
@@ -163,6 +166,7 @@
 				CA9C25D927B06B4E00F6D4C3 /* EditView-ViewModel.swift in Sources */,
 				CA6188AE27A639E300991336 /* EditView.swift in Sources */,
 				CA1941122776BCC000624A28 /* BucketListApp.swift in Sources */,
+				AB8836D327C1C1CF0051FDA6 /* LocationFetcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +301,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please authenticate yourself to unlock your places";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Share your location while using the app?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -328,6 +333,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please authenticate yourself to unlock your places";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Share your location while using the app?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

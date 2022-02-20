@@ -23,7 +23,8 @@ import SwiftUI
 // asking users to add places to the map that they want to visit
 struct ContentView: View {
     @StateObject private var viewModel = ViewModel()
-    
+    let locationFetcher = LocationFetcher()
+
     var body: some View {
         ZStack {
             if viewModel.isUnlocked {
@@ -69,6 +70,19 @@ struct ContentView: View {
                                 .font(.title)
                                 .clipShape(Circle())
                                 .padding(.trailing)
+                        }
+                    }
+                    VStack {
+                        Button("Start Tracking Location") {
+                            self.locationFetcher.start()
+                        }
+
+                        Button("Read Location") {
+                            if let location = self.locationFetcher.lastKnownLocation {
+                                print("Your location is \(location)")
+                            } else {
+                                print("Your location is unknown")
+                            }
                         }
                     }
                 }

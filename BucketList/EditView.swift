@@ -51,6 +51,15 @@ struct EditView: View {
                     onSave(newLocation)
                     dismiss()
                 }
+                Spacer()
+                Button("Delete") {
+                    guard let newLocation = viewModel.save() else {
+                        print("save lovation failed")
+                        return
+                    }
+                    onSave(newLocation)
+                    dismiss()
+                }
             }.task {
                 await viewModel.fetchNearbyPlaces()
             }
